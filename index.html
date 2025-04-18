@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerCompass - Curious Minds</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <!-- Replace with actual path to Curious Minds logo -->
+            <div class="logo-container">
+                <img src="CuriousMinds.jpg" alt="Curious Minds" class="logo">
+            </div>
+            <div class="subtitle">CAREER GUIDENCE TO CAREER MINDSET</div>
+            <!-- Scientific Element Decorations -->
+            <svg class="dna-decoration" viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,0 Q70,75 50,150 Q30,225 50,300" stroke="#000" fill="none" stroke-width="2" />
+                <path d="M50,0 Q30,75 50,150 Q70,225 50,300" stroke="#000" fill="none" stroke-width="2" />
+                <!-- DNA rungs -->
+                <line x1="30" y1="25" x2="70" y2="25" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="50" x2="70" y2="50" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="75" x2="70" y2="75" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="100" x2="70" y2="100" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="125" x2="70" y2="125" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="150" x2="70" y2="150" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="175" x2="70" y2="175" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="200" x2="70" y2="200" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="225" x2="70" y2="225" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="250" x2="70" y2="250" stroke="#000" stroke-width="2" />
+                <line x1="30" y1="275" x2="70" y2="275" stroke="#000" stroke-width="2" />
+            </svg>
+            <svg class="flask-decoration" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M35,10 L35,40 Q35,40 25,60 Q25,60 25,70 Q25,85 50,85 Q75,85 75,70 Q75,60 75,60 Q65,40 65,40 L65,10 Z"
+                    stroke="#000" fill="none" stroke-width="2" />
+                <line x1="35" y1="10" x2="65" y2="10" stroke="#000" stroke-width="2" />
+                <path d="M30,60 Q50,50 70,60" stroke="#0075c9" fill="none" stroke-width="2" />
+                <circle cx="45" cy="70" r="3" fill="#0075c9" />
+                <circle cx="55" cy="65" r="2" fill="#0075c9" />
+                <circle cx="40" cy="55" r="2" fill="#0075c9" />
+            </svg>
+        </header>
+
+        <div class="card welcome">
+            <h2>Welcome to Your Career Discovery Journey</h2>
+            <p>Answer a series of questions to help us understand your interests, strengths, and personality. We'll
+                analyze your responses to recommend the best career paths for your unique profile.</p>
+
+            <div class="professor-section">
+                <div class="professor-image">
+                    <!-- Replace with actual path to professor image -->
+                    <img src="SurendraSir.jpg" alt="Professor" />
+                </div>
+                <div class="professor-info">
+                    <h3>Prof. Surendra Diwarkar</h3>
+                    <p class="title">Data Scientist</p>
+                    <p>
+                        Founder of GET TUTORIALS and GET ANALYTIX
+                        <br>
+                        Senior Software Engineer <br>
+                        Python Data Scientist
+                        <br>
+                        Ex-Capgemini and Pine Lab(Benow)
+
+                    </p>
+                </div>
+            </div>
+
+            <a href="start.html" class="btn btn-large">Begin Assessment</a>
+        </div>
+
+        <!-- Example of a question card - initially hidden -->
+        <div class="card question-container" style="display: none;">
+            <div class="question">
+                <svg class="science-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#0075c9" stroke-width="2" />
+                    <path d="M30,50 L70,50" stroke="#0075c9" stroke-width="2" />
+                    <path d="M50,30 L50,70" stroke="#0075c9" stroke-width="2" />
+                </svg>
+                Which of these activities do you enjoy the most?
+            </div>
+            <div class="options">
+                <div class="option">Solving complex mathematical problems</div>
+                <div class="option">Writing creative stories or articles</div>
+                <div class="option">Building or fixing things with your hands</div>
+                <div class="option">Helping others with their personal problems</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" style="width: 25%;"></div>
+                </div>
+                <div class="progress-text">Question 1 of 4</div>
+            </div>
+        </div>
+
+        <!-- Example of results card - initially hidden -->
+        <div class="card results-container" style="display: none;">
+            <div class="result-header">
+                <h2 class="career-match">Best Career Match: Data Scientist</h2>
+                <div class="match-percent">92%</div>
+            </div>
+            <p class="career-description">Based on your responses, you show strong analytical skills combined with
+                creativity and problem-solving abilities. These traits align perfectly with a career in Data Science,
+                where you can apply mathematical concepts to real-world problems and create innovative solutions.</p>
+            <h3 style="color: var(--primary);">Recommended Next Steps:</h3>
+            <ul class="recommendation-list">
+                <li>Consider pursuing courses in statistics, programming, and machine learning</li>
+                <li>Look into internship opportunities with tech companies</li>
+                <li>Join online communities like Kaggle to practice your skills</li>
+                <li>Explore related fields such as AI research or business analytics</li>
+            </ul>
+            <div>
+                <a href="#" class="btn restart-btn">Take Again</a>
+                <a href="#" class="btn">Get Detailed Report</a>
+            </div>
+        </div>
+
+        <footer>
+            © 2025 Curious Minds | Helping students find their true path
+            <br>
+            Made by Team GET ANALYTIX
+            <br>
+            <div class="Team">@TEAM REAL</div>
+        </footer>
+    </div>
+</body>
+
+</html>

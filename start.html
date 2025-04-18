@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerCompass - Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CareerCompass</h1>
+            <div class="subtitle">Discover Your Ideal Career Path</div>
+        </header>
+        
+        <!-- Question Screen -->
+        <section class="card question-container" id="question-screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Question 1 of 10</div>
+            </div>
+            
+            <div class="question" id="question-text">Question appears here</div>
+            
+            <div class="options" id="options-container">
+                <!-- Options will be inserted here by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Results Screen -->
+        <section class="card results-container" id="results-screen">
+            <div class="result-header">
+                <h2>Your Career Assessment Results</h2>
+                <p>Based on your unique responses, we've identified your ideal career path.</p>
+            </div>
+            
+            <div class="career-match" id="career-match">Career Match: <span id="career-title">Science Stream</span></div>
+            <div class="match-percent"><span id="match-percentage">95</span>% Match</div>
+            
+            <div class="career-description" id="career-description">
+                Your responses indicate a strong aptitude for analytical thinking, problem-solving, and curiosity about how things work. These are key traits for success in science-related fields.
+            </div>
+            
+            <h3>Recommended Next Steps:</h3>
+            <ul class="recommendation-list" id="recommendation-list">
+                <!-- Recommendations will be inserted here by JavaScript -->
+            </ul>
+            
+            <button class="btn restart-btn" id="restart-btn">Take Assessment Again</button>
+            <a href="index.html" class="btn">Back to Home</a>
+        </section>
+        
+        <footer>
+            © 2025 CareerCompass | Helping students find their true path
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
