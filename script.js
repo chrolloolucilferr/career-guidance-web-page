@@ -436,7 +436,6 @@ const careerRecommendations = [
     }
 ];
 
-// Global variables
 let currentQuestionIndex = 0;
 let totalQuestions = 10; // We'll randomly select 10 questions from the question bank
 let scienceAffinityScore = 0;
@@ -667,6 +666,81 @@ function showResults() {
         li.textContent = recommendation;
         recommendationList.appendChild(li);
     });
+    
+    // Add Google Form container and link
+    createGoogleFormSection(resultsContainer, careerRecommendation.title, matchScore);
+}
+
+// Create Google Form section
+function createGoogleFormSection(resultsContainer, careerPath, matchScore) {
+    // Check if the form container already exists to prevent duplicates
+    let formContainer = document.getElementById('google-form-container');
+    
+    if (!formContainer) {
+        // Create the form container
+        formContainer = document.createElement('div');
+        formContainer.id = 'google-form-container';
+        formContainer.className = 'google-form-section';
+        
+        // Style the container
+        formContainer.style.marginTop = '30px';
+        formContainer.style.padding = '20px';
+        formContainer.style.backgroundColor = '#f5f5f5';
+        formContainer.style.borderRadius = '8px';
+        formContainer.style.textAlign = 'center';
+        
+        // Add header
+        const header = document.createElement('h3');
+        header.textContent = 'Take the ScreenShot of this page to Complete Your Career Assessment';
+        header.style.marginBottom = '15px';
+        formContainer.appendChild(header);
+        
+        // Add description
+        const description = document.createElement('p');
+        description.textContent = 'Please fill out this short form to receive more detailed guidance:';
+        description.style.marginBottom = '20px';
+        formContainer.appendChild(description);
+        
+        // Add Google Form link
+        const formLink = document.createElement('a');
+        formLink.href = 'https://forms.gle/j4z3v73F4HCGXVUD6'; // Replace with your actual Google Form link
+        formLink.target = '_blank'; // Open in a new tab
+        formLink.className = 'form-button';
+        formLink.textContent = 'Continue to Submission Form';
+        
+        // Style the button
+        formLink.style.display = 'inline-block';
+        formLink.style.padding = '12px 24px';
+        formLink.style.backgroundColor = '#4285f4';
+        formLink.style.color = 'black';
+        formLink.style.borderRadius = '4px';
+        formLink.style.textDecoration = 'none';
+        formLink.style.fontWeight = 'bold';
+        formLink.style.cursor = 'pointer';
+        formLink.style.transition = 'background-color 0.3s';
+        
+        // Add hover effect
+        formLink.onmouseover = function() {
+            this.style.backgroundColor = '#3367d6';
+        };
+        formLink.onmouseout = function() {
+            this.style.backgroundColor = '#ffd900';
+        };
+        
+        // Add info about what data will be passed
+        const dataInfo = document.createElement('p');
+        dataInfo.style.fontSize = '0.8em';
+        dataInfo.style.marginTop = '15px';
+        dataInfo.style.color = '#666';
+        dataInfo.textContent = 'Your career path recommendation and score will be shared with the form.';
+        
+        // Append elements to the container
+        formContainer.appendChild(formLink);
+        formContainer.appendChild(dataInfo);
+        
+        // Append the container to the results section
+        resultsContainer.appendChild(formContainer);
+    }
 }
 
 // Reset quiz
