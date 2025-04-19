@@ -514,7 +514,7 @@ function displayQuestion() {
         
         // Update progress
         const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
-        progressBar.style.width = `${progressPercentage}`;
+        progressBar.style.width = `${progressPercentage}%`;
         progressText.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
         
         // Clear previous options
