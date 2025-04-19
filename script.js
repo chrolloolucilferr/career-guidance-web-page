@@ -343,44 +343,95 @@ const questionBank = [
 ];
 
 // Career recommendation paths based on science affinity
+// Question bank remains the same - it's well structured with various questions and options
+
+// Updated career recommendation system based on science affinity score
 const careerRecommendations = [
     {
-        // High science affinity (70% chance)
         title: "Science Stream",
-        description: "Your responses indicate a strong aptitude for analytical thinking, problem-solving, and curiosity about how things work. These are key traits for success in science-related fields.",
-        matchPercentage: () => Math.floor(Math.random() * 16) + 85, // 85-100%
+        getDescription: (strengths) => {
+            const descriptions = [
+                `Your responses show a strong aptitude for analytical thinking and problem-solving. You seem to enjoy ${strengths[0]} and ${strengths[1]}, which are valuable traits for success in science-related fields.`,
+                `With your interest in ${strengths[0]} and ability in ${strengths[1]}, the Science stream would be an excellent match for your natural inclinations.`,
+                `Your preference for ${strengths[0]} combined with your strength in ${strengths[1]} indicates you would thrive in scientific disciplines that require logical reasoning and systematic approaches.`
+            ];
+            return descriptions[Math.floor(Math.random() * descriptions.length)];
+        },
+        matchThreshold: 65, // Requires actual high science affinity
         recommendations: [
             "Take Physics, Chemistry, and Mathematics in your 11th and 12th grade",
             "Explore additional courses in Biology, Computer Science, or Electronics based on your specific interests",
             "Participate in science competitions and olympiads to enhance your skills",
             "Consider pursuing engineering, medicine, research, or technology-related degrees after 12th grade",
             "Join science clubs or groups to connect with like-minded peers"
+        ],
+        strengths: [
+            "analytical thinking",
+            "problem-solving",
+            "mathematical reasoning",
+            "scientific curiosity",
+            "experimental approaches",
+            "logical analysis",
+            "systematic study",
+            "technical understanding"
         ]
     },
     {
-        // Medium science affinity (15% chance)
         title: "Commerce with Mathematics",
-        description: "Your profile shows a balanced mix of analytical abilities and practical thinking. You appreciate systematic approaches but also value real-world applications.",
-        matchPercentage: () => Math.floor(Math.random() * 10) + 76, // 76-85%
+        getDescription: (strengths) => {
+            const descriptions = [
+                `Your profile shows a balanced mix of analytical abilities and practical thinking. Your strengths in ${strengths[0]} and ${strengths[1]} would be valuable in commerce fields.`,
+                `With your interest in ${strengths[0]} and skill in ${strengths[1]}, Commerce with Mathematics would give you the quantitative foundation while applying concepts to real-world scenarios.`,
+                `Your aptitude for ${strengths[0]} and ${strengths[1]} suggests you would excel in areas that combine numerical analysis with practical business applications.`
+            ];
+            return descriptions[Math.floor(Math.random() * descriptions.length)];
+        },
+        matchThreshold: 40, // Medium science affinity
         recommendations: [
             "Consider taking Commerce with Mathematics in 11th and 12th grade",
             "Explore electives in Business Studies, Economics, and Accountancy",
             "Look into fields like Economics, Finance, Business Analytics, or Actuarial Science",
             "Develop both quantitative and communication skills",
             "Participate in business competitions and case studies"
+        ],
+        strengths: [
+            "quantitative analysis",
+            "practical thinking",
+            "organizational skills",
+            "financial aptitude",
+            "strategic planning",
+            "data interpretation",
+            "logical reasoning",
+            "balanced approach"
         ]
     },
     {
-        // Low science affinity (15% chance)
         title: "Arts or Humanities",
-        description: "Your responses reveal strengths in creative thinking, communication, and understanding human experiences. These qualities are valuable in humanities and arts-related disciplines.",
-        matchPercentage: () => Math.floor(Math.random() * 10) + 76, // 76-85%
+        getDescription: (strengths) => {
+            const descriptions = [
+                `Your responses reveal strengths in ${strengths[0]} and ${strengths[1]}. These qualities are particularly valuable in humanities and arts-related disciplines.`,
+                `With your natural inclination toward ${strengths[0]} and ${strengths[1]}, you would likely find fulfillment in fields that value creative expression and human understanding.`,
+                `Your preference for ${strengths[0]} combined with your strength in ${strengths[1]} suggests you would excel in disciplines that explore human experiences and expression.`
+            ];
+            return descriptions[Math.floor(Math.random() * descriptions.length)];
+        },
+        matchThreshold: 0, // Lower science affinity
         recommendations: [
             "Consider pursuing Arts or Humanities in 11th and 12th grade",
             "Explore subjects like Literature, History, Psychology, or Political Science",
             "Develop your writing, critical thinking, and analytical skills",
             "Look into careers in law, journalism, psychology, education, or creative fields",
             "Participate in debates, model UN, or literary events"
+        ],
+        strengths: [
+            "creative thinking",
+            "communication skills",
+            "emotional intelligence",
+            "artistic expression",
+            "social awareness",
+            "narrative understanding",
+            "cultural appreciation",
+            "interpersonal skills"
         ]
     }
 ];
@@ -390,6 +441,7 @@ let currentQuestionIndex = 0;
 let totalQuestions = 10; // We'll randomly select 10 questions from the question bank
 let scienceAffinityScore = 0;
 let selectedQuestions = [];
+let userResponses = []; // Track the actual responses
 let userSeed = Math.floor(Math.random() * 10000); // Random seed for each user
 
 // Pseudorandom function based on user seed
@@ -412,7 +464,7 @@ function selectRandomQuestions() {
         }
         
         // Select first 'totalQuestions' indices
-        selectedIndices = indices.slice(0, totalQuestions);
+        selectedIndices = indices.slice(0, Math.min(totalQuestions, indices.length));
         
         // Create the selected questions array
         selectedQuestions = []; // Reset the array
@@ -423,7 +475,8 @@ function selectRandomQuestions() {
             
             selectedQuestions.push({
                 questionText: questionBank[questionIndex].variants[variantIndex],
-                options: questionBank[questionIndex].options[optionSetIndex]
+                options: questionBank[questionIndex].options[optionSetIndex],
+                category: questionIndex // Keep track of which category this question belongs to
             });
         }
         console.log("Selected questions:", selectedQuestions.length);
@@ -461,7 +514,7 @@ function displayQuestion() {
         
         // Update progress
         const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
-        progressBar.style.width = `${progressPercentage}%`;
+        progressBar.style.width = `${progressPercentage}`;
         progressText.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
         
         // Clear previous options
@@ -473,7 +526,7 @@ function displayQuestion() {
             const optionElement = document.createElement('div');
             optionElement.className = 'option';
             optionElement.textContent = option.text;
-            optionElement.addEventListener('click', () => selectOption(option.scienceAffinity));
+            optionElement.addEventListener('click', () => selectOption(option));
             optionsContainer.appendChild(optionElement);
         });
         
@@ -483,19 +536,60 @@ function displayQuestion() {
     }
 }
 
-// Handle option selection
-function selectOption(scienceAffinity) {
+// Handle option selection - now storing the full response
+function selectOption(option) {
     // Add to science affinity score
-    scienceAffinityScore += scienceAffinity;
+    scienceAffinityScore += option.scienceAffinity;
+    
+    // Store the user's response
+    userResponses.push({
+        questionIndex: selectedQuestions[currentQuestionIndex].category,
+        response: option.text,
+        scienceAffinity: option.scienceAffinity
+    });
     
     // Move to next question or show results
     currentQuestionIndex++;
     
-    if (currentQuestionIndex < totalQuestions) {
+    if (currentQuestionIndex < Math.min(totalQuestions, selectedQuestions.length)) {
         displayQuestion();
     } else {
         showResults();
     }
+}
+
+// Analyze user responses to find patterns and strengths
+function analyzeResponses() {
+    // Find which response categories had the highest science affinity
+    const categoryScores = {};
+    const responseTexts = {};
+    
+    userResponses.forEach(response => {
+        if (!categoryScores[response.questionIndex]) {
+            categoryScores[response.questionIndex] = 0;
+            responseTexts[response.questionIndex] = [];
+        }
+        categoryScores[response.questionIndex] += response.scienceAffinity;
+        responseTexts[response.questionIndex].push(response.response);
+    });
+    
+    // Sort categories by score
+    const sortedCategories = Object.keys(categoryScores).sort(
+        (a, b) => categoryScores[b] - categoryScores[a]
+    );
+    
+    // Extract key strengths based on highest scoring responses
+    const highestResponses = userResponses
+        .sort((a, b) => b.scienceAffinity - a.scienceAffinity)
+        .slice(0, 3)
+        .map(r => r.response);
+    
+    return {
+        topCategories: sortedCategories.slice(0, 3),
+        topResponses: highestResponses,
+        categoryScores,
+        responseTexts
+    };
 }
 
 // Show results
@@ -510,21 +604,29 @@ function showResults() {
     const maxPossibleScore = totalQuestions * 3; // 3 is max affinity per question
     const scienceAffinityPercentage = (scienceAffinityScore / maxPossibleScore) * 100;
     
+    // Analyze user responses
+    const analysis = analyzeResponses();
+    
     // Determine career recommendation based on science affinity
     let careerRecommendation;
     
-    // This is where we implement the 70% chance of science recommendation
-    const randomValue = pseudoRandom();
-    
-    if (scienceAffinityPercentage >= 70 || randomValue < 0.7) {
-        // 70% of students get science recommendation regardless of their score
+    // IMPORTANT CHANGE: Now using actual affinity score to recommend streams
+    if (scienceAffinityPercentage >= careerRecommendations[0].matchThreshold) {
         careerRecommendation = careerRecommendations[0]; // Science Stream
+    } else if (scienceAffinityPercentage >= careerRecommendations[1].matchThreshold) {
+        careerRecommendation = careerRecommendations[1]; // Commerce with Mathematics
     } else {
-        // For remaining 30%, choose based on actual affinity
-        if (scienceAffinityPercentage >= 50) {
-            careerRecommendation = careerRecommendations[1]; // Commerce with Mathematics
-        } else {
-            careerRecommendation = careerRecommendations[2]; // Arts or Humanities
+        careerRecommendation = careerRecommendations[2]; // Arts or Humanities
+    }
+    
+    // Extract relevant strengths based on the recommended stream
+    const streamStrengths = careerRecommendation.strengths;
+    // Randomly select two strengths to personalize the description
+    const selectedStrengths = [];
+    while (selectedStrengths.length < 2) {
+        const index = Math.floor(Math.random() * streamStrengths.length);
+        if (!selectedStrengths.includes(streamStrengths[index])) {
+            selectedStrengths.push(streamStrengths[index]);
         }
     }
     
@@ -535,8 +637,26 @@ function showResults() {
     const recommendationList = document.getElementById('recommendation-list');
     
     careerTitle.textContent = careerRecommendation.title;
-    matchPercentage.textContent = careerRecommendation.matchPercentage();
-    careerDescription.textContent = careerRecommendation.description;
+    
+    // Calculate authentic match percentage based on affinity
+    let matchScore;
+    if (careerRecommendation.title === "Science Stream") {
+        matchScore = Math.round(scienceAffinityPercentage);
+    } else if (careerRecommendation.title === "Commerce with Mathematics") {
+        // For commerce, highest match when score is in the middle range
+        const distanceFromIdeal = Math.abs(scienceAffinityPercentage - 50);
+        matchScore = Math.round(85 - distanceFromIdeal);
+    } else {
+        // For arts, highest match when science score is low
+        matchScore = Math.round(95 - scienceAffinityPercentage);
+    }
+    
+    // Ensure match is within reasonable bounds
+    matchScore = Math.max(60, Math.min(95, matchScore));
+    matchPercentage.textContent = matchScore;
+    
+    // Generate personalized description
+    careerDescription.textContent = careerRecommendation.getDescription(selectedStrengths);
     
     // Clear previous recommendations
     recommendationList.innerHTML = '';
@@ -554,6 +674,7 @@ function resetQuiz() {
     currentQuestionIndex = 0;
     scienceAffinityScore = 0;
     selectedQuestions = [];
+    userResponses = [];
     userSeed = Math.floor(Math.random() * 10000); // New seed for different questions
     
     selectRandomQuestions();
